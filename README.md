@@ -16,23 +16,23 @@
 <td>
 
 ### 🎯 Latest Challenge: #007 — *Blogger*
-**Status:** 🟢 Live now · Solution will be posted on **Oct 15, 2026**
+**Status:** ✅ Solution posted · Next challenge coming soon
 
 [Start the challenge →](./challenges/007-blogger/)
 
 </td>
 <td>
 
-### ✅ Latest Solution: #006 — *FileDrop*
+### ✅ Latest Solution: #007 — *Blogger*
 
 <details>
 <summary>💡 Reveal the lesson (spoiler)</summary>
 
-Never build a filesystem path from user-controlled input — an unvalidated username used as the storage directory name lets an attacker traverse (`../`) into other accounts' files (Path Traversal, CWE-22 / CWE-73)
+A query builder only protects the queries that go through it — user input pasted into a raw SQL string (`knex.raw` with a template literal) lets an attacker bypass the app's access rules and read the whole database. Bind every value as a parameter (SQL Injection, CWE-89)
 
 </details>
 
-[Read the solution →](./solutions/006-filedrop/SOLUTION.md)
+[Read the solution →](./solutions/007-blogger/SOLUTION.md)
 
 </td>
 <td>
