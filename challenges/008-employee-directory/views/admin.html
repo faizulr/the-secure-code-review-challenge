@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+<h1>Administration</h1>
+
+<section class="card">
+  <h2>Invite user</h2>
+  {% if inviteError %}
+  <p class="error">{{ inviteError }}</p>
+  {% endif %}
+  {% if lastInvite %}
+  <p class="success">Invitation created for {{ lastInvite.email }}. Code: <strong>{{ lastInvite.invitationCode }}</strong> (expires {{ lastInvite.expiresAt }}).</p>
+  {% endif %}
+  <form method="post" action="/admin/invite">
+    <input type="hidden" name="_csrf" value="{{ csrfToken() }}">
+    <label>Email <input type="email" name="email" required></label>
+    <p><button type="submit">Create invitation</button></p>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Recent invitations</h2>
+  <table>
+    <thead>
+      <tr><th>Email</th><th>Expires</th><th>Used</th></tr>
+    </thead>
+    <tbody>
+      {% for inv in invitations %}
+      <tr>
+        <td>{{ inv.email }}</td>
+        <td>{{ inv.expiresAt }}</td>
+        <td>{{ inv.used }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h2>Employees</h2>
+  {% for emp in employees %}
+  <form method="post" action="/admin/employee/{{ emp.id }}" style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+    <input type="hidden" name="_csrf" value="{{ csrfToken() }}">
+    <p class="muted"><strong>{{ emp.email }}</strong>{% if emp.userId %} (linked){% endif %}</p>
+    <label>Name <input type="text" name="name" value="{{ emp.name }}"></label>
+    <label>Title <input type="text" name="title" value="{{ emp.title }}"></label>
+    <label>Manager <input type="text" name="manager" value="{{ emp.manager }}"></label>
+    <label>Desk <input type="text" name="deskNumber" value="{{ emp.deskNumber }}"></label>
+    <label>Location <input type="text" name="location" value="{{ emp.location }}"></label>
+    <label>Phone <input type="text" name="phone" value="{{ emp.phone }}"></label>
+    <label>Salary <input type="number" name="salary" step="1"{% if emp.salary != null %} value="{{ emp.salary }}"{% endif %}></label>
+    <p><button type="submit">Save employee</button></p>
+  </form>
+  {% endfor %}
+</section>
+
+<section class="card">
+  <h2>Users</h2>
+  <table>
+    <thead>
+      <tr><th>Email</th><th>Role</th><th>Action</th></tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>
+          {% if u.role != 'admin' %}
+          <form method="post" action="/admin/promote/{{ u.id }}" style="display:inline;">
+            <input type="hidden" name="_csrf" value="{{ csrfToken() }}">
+            <button type="submit">Make admin</button>
+          </form>
+          {% else %}
+          —
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+{% block title %}Directory{% endblock %}
+{% block content %}
+<h1>Employee directory</h1>
+<p class="muted">Public fields are visible for everyone. Salary is shown only for your own record{% if user.role == 'admin' %} or when you are an administrator{% endif %}.</p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Title</th>
+      <th>Manager</th>
+      <th>Desk</th>
+      <th>Location</th>
+      <th>Phone</th>
+      <th>Salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for emp in employees %}
+    <tr>
+      <td>{{ emp.name }}</td>
+      <td>{{ emp.title }}</td>
+      <td>{{ emp.manager }}</td>
+      <td>{{ emp.deskNumber }}</td>
+      <td>{{ emp.location }}</td>
+      <td>{{ emp.phone }}</td>
+      <td>
+        {% if user.role == 'admin' or emp.id == user.employeeId %}
+          {% if emp.salary != null %}{{ emp.salary }}{% else %}—{% endif %}
+        {% else %}
+        —
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

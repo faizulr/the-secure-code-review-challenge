@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}My profile{% endblock %}
+{% block content %}
+<h1>My profile</h1>
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+{% if saved %}
+<p class="success">Profile updated.</p>
+{% endif %}
+<p class="muted">You can update your public directory fields. Salary is managed by an administrator.</p>
+<form method="post" action="/profile">
+  <input type="hidden" name="_csrf" value="{{ csrfToken() }}">
+  <label>Name <input type="text" name="name" value="{{ employee.name }}"></label>
+  <label>Title <input type="text" name="title" value="{{ employee.title }}"></label>
+  <label>Manager <input type="text" name="manager" value="{{ employee.manager }}"></label>
+  <label>Desk number <input type="text" name="deskNumber" value="{{ employee.deskNumber }}"></label>
+  <label>Location <input type="text" name="location" value="{{ employee.location }}"></label>
+  <label>Phone <input type="text" name="phone" value="{{ employee.phone }}"></label>
+  <p><button type="submit">Save</button></p>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Employee Directory{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 1rem; }
+    nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid #ccc; padding-bottom: 0.5rem; align-items: center; }
+    nav a { color: #0066cc; text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    .user { margin-left: auto; }
+    h1 { font-size: 1.5rem; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+    th, td { border: 1px solid #ddd; padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+    th { background: #f5f5f5; }
+    form label { display: block; margin-top: 0.5rem; }
+    form input { width: 100%; max-width: 420px; padding: 0.35rem; box-sizing: border-box; }
+    .error { color: #c00; }
+    .success { color: #060; }
+    .muted { color: #666; font-size: 0.9rem; }
+    .card { border: 1px solid #eee; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <nav>
+    {% if user %}
+    <a href="/">Directory</a>
+    <a href="/profile">My profile</a>
+    {% if user.role == 'admin' %}
+    <a href="/admin">Admin</a>
+    {% endif %}
+    <span class="user">{{ user.email }} | <a href="/logout">Logout</a></span>
+    {% else %}
+    <span class="user"><a href="/login">Login</a> | <a href="/register">Register</a></span>
+    {% endif %}
+  </nav>
+  {% block content %}{% endblock %}
+</body>
+</html>
